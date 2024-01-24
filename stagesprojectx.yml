@@ -47,7 +47,7 @@ stages:
   - job: Deploy
     pool:
       name: MyAgentPool
-
+    environment: dev
     steps:
 
     - task: DownloadBuildArtifacts@0
