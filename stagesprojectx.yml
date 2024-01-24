@@ -61,4 +61,4 @@ stages:
             inputs:
               azureSubscription: 'projectx'
               appName: 'projectxhasankk'
-              package: '$(System.ArtifactsDirectory)/drop/*.zip'
+              package: '$(Build.ArtifactStagingDirectory)/drop/*.zip'
