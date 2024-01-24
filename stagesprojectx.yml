@@ -4,14 +4,14 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- release
+- master
 stages:
 - stage: Build
   jobs:
   - job: Build
 
     pool:
-      name: good
+      name: MyAgentPool
 
     variables:
       solution: '**/*.sln'
@@ -46,7 +46,7 @@ stages:
   jobs:
   - job: Deploy
     pool:
-      name: good
+      name: MyAgentPool
 
     steps:
 
@@ -60,7 +60,7 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'mine'
+        azureSubscription: 'projectx'
         appType: 'webApp'
-        WebAppName: 'projectxxxxxx'
+        WebAppName: 'projectxhasankk'
         packageForLinux: '$(System.ArtifactsDirectory)/drop/*.zip'
