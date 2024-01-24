@@ -44,25 +44,21 @@ stages:
 - stage: Deploy
   dependsOn: Build
   jobs:
-  - job: Deploy
+  - deployment: Deploy
     pool:
       name: MyAgentPool
     environment: dev
     variables:
     - group: 'Release'
-    steps:
-
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
-
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'projectx'
-        appType: 'webApp'
-        WebAppName: 'projectxhasankk'
-        packageForLinux: '$(System.ArtifactsDirectory)/drop/*.zip'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'projectx'
+              appName: 'projectxhasankk'
+              package: '$(System.ArtifactsDirectory)/drop/*.zip'
